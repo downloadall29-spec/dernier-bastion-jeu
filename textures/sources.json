@@ -1,0 +1,82 @@
+{
+  "sand": {
+    "bytes": 485088,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/sand_01/sand_01_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "sand_01",
+    "page": "https://polyhaven.com/a/sand_01",
+    "sha256": "a73b90eaa6d675ef57e7d48a8cf23e1f412e353ab2e29cf73930b8ecd4e76875"
+  },
+  "dirt": {
+    "bytes": 604799,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dry_ground_01/dry_ground_01_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "dry_ground_01",
+    "page": "https://polyhaven.com/a/dry_ground_01",
+    "sha256": "75222fc97a82b635a09cf8f2891dd58bc42e49599b9fda920b2c50193fe85e9f"
+  },
+  "pebbles": {
+    "bytes": 1028735,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/river_small_rocks/river_small_rocks_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "river_small_rocks",
+    "page": "https://polyhaven.com/a/river_small_rocks",
+    "sha256": "adbcaae1f1445d5b49797c71ea2c3f43ccaf7b109f933a427f0d0993d1dbbc51"
+  },
+  "snow": {
+    "bytes": 325497,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/snow_02/snow_02_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "snow_02",
+    "page": "https://polyhaven.com/a/snow_02",
+    "sha256": "523a4e69c90b96d787dd69b897f29a2b3761a017024405c60aa630d1e8e9009a"
+  },
+  "furrows": {
+    "bytes": 717703,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/farm_furrows/farm_furrows_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "farm_furrows",
+    "page": "https://polyhaven.com/a/farm_furrows",
+    "sha256": "991caba24cc555a968b98092bd0dd3a35da849e553012830062eab158c32bb22"
+  },
+  "grass": {
+    "bytes": 876584,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "grass_ground",
+    "page": "https://polyhaven.com/a/grass_ground",
+    "sha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b"
+  },
+  "rocky": {
+    "bytes": 905179,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rocky_terrain/rocky_terrain_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "rocky_terrain",
+    "page": "https://polyhaven.com/a/rocky_terrain",
+    "sha256": "429315865fd89c150272592f6d93def174c6f69804a565ff08e53627a885579b"
+  },
+  "lava": {
+    "bytes": 720673,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cracked_red_ground/cracked_red_ground_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "cracked_red_ground",
+    "page": "https://polyhaven.com/a/cracked_red_ground",
+    "sha256": "36f41dc2e889c5473c784f3316baf6ac0d4f4e6ad21205781c60e767aa640644"
+  },
+  "floor": {
+    "bytes": 734493,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_floor/wood_floor_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "wood_floor",
+    "page": "https://polyhaven.com/a/wood_floor",
+    "sha256": "2a1c07687b6dbb214c4b9213739c6d92d425f1f0fc8ab3ac157f105d78240789"
+  },
+  "cobble": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_01/cobblestone_01_diff_1k.jpg",
+    "bytes": 487258,
+    "page": "https://polyhaven.com/a/cobblestone_01",
+    "license": "CC0-1.0",
+    "sha256": "aab330227974aadbc477b2022351112f5696fa7048d99dc776c2e6f23f4e0d2a",
+    "asset": "cobblestone_01"
+  }
+}

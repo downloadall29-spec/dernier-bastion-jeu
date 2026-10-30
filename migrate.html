@@ -1,0 +1,15 @@
+<!doctype html><meta charset="utf-8"><title>Dernier Bastion</title>
+<body style="background:#24164f;color:white;font-family:sans-serif;text-align:center;padding:15vh 15px">
+<p id="message">Transfert de ta sauvegarde…</p>
+<script>
+try {
+  const save = {};
+  for (let i=0;i<localStorage.length;i++) {
+    const key=localStorage.key(i);
+    if (key.startsWith('dernier-bastion')) save[key]=localStorage.getItem(key);
+  }
+  BastionAndroid.importLegacySave(JSON.stringify(save));
+} catch (error) {
+  document.getElementById('message').textContent='Impossible de transférer la sauvegarde. Ferme puis relance le jeu.';
+}
+</script>
