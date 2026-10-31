@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<style>#fsBtn{display:none!important}</style>
+<script>if(location.protocol==='file:'&&window.BastionAndroid&&BastionAndroid.importLegacySave){try{const s={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('dernier-bastion'))s[k]=localStorage.getItem(k);}BastionAndroid.importLegacySave(JSON.stringify(s));}catch(e){console.error('Transfert impossible',e);}}</script>
+<title>Dernier Bastion</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css?v=202">
+
+</head>
+<body>
+<canvas id="village" aria-label="Village"></canvas>
+<canvas id="game" aria-label="Zone de jeu" hidden></canvas>
+<canvas id="fpv" aria-hidden="true" hidden></canvas>
+
+<div id="hud" hidden>
+  <div id="fpCross" hidden></div>
+  <div class="hud-top">
+    <div class="vitals">
+      <div class="meter"><div class="fill" id="hpFill"></div><div class="lbl"><span>PV</span><span id="hpText">100 / 100</span></div></div>
+      <div class="meter xp"><div class="fill" id="xpFill" style="width:0"></div><div class="lbl"><span id="lvlText">Niv. 1</span><span id="xpText"></span></div></div>
+    </div>
+    <div class="wavebox"><span id="waveText">Vague 1</span><small id="leftText">Prépare-toi</small></div>
+    <div class="hud-right">
+      <span class="chip"><span id="killText">0</span>&nbsp;monstres</span>
+      <span class="chip"><i class="coin"></i><span id="coinRunText">0</span></span>
+      <span class="chip" id="speedChip" style="background:var(--sun);color:var(--ink)" hidden>×2</span>
+      <button class="hud-mini" id="viewBtn" aria-label="Changer de vue">👁</button>
+      <button class="hud-mini" id="speedHud" aria-label="Vitesse ×2">×2</button>
+      <button id="pauseBtn" aria-label="Pause"></button>
+    </div>
+  </div>
+  <div id="bossBar" hidden><div class="name" id="bossName"></div><div class="meter"><div class="fill" id="bossFill"></div></div></div>
+  <div class="actions">
+    <button class="act" id="bDash" aria-label="Roulade"><span class="ic">»</span><span>Roulade</span></button>
+    <button class="act" id="bGren" aria-label="Grenade"><span class="ic">●</span><span>Grenade</span></button>
+    <button class="act" id="bAim" aria-label="Viser" hidden><span class="ic">◎</span><span>Viser</span></button>
+    <button class="act" id="bUlt" aria-label="Ultime"><span class="ic">★</span><span id="ultLabel">Ultime</span></button>
+  </div>
+</div>
+<div id="hurt"></div>
+<div id="banner"><div class="big" id="bannerBig"></div><div class="sub" id="bannerSub"></div></div>
+
+<div id="vhud">
+  <div class="vtop">
+    <div class="group">
+      <span class="vname">Village du Bastion</span>
+      <span class="chip"><i class="coin"></i><span id="vCoins">0</span></span>
+      <span class="chip"><i class="gem"></i><span id="vGems">0</span></span>
+      <span class="chip" id="vHdv"></span>
+      <span class="chip" id="vBuilderChip"><span id="vBuilder"></span></span>
+    </div>
+    <div class="group">
+      <button class="btn alt" id="vFriends">Amis</button>
+      <button class="btn alt" id="vCam">Vue</button>
+      <button class="btn alt" id="vTest" hidden>Mode test</button>
+      <button class="btn alt" id="vGfx">Graphismes</button>
+      <button class="btn alt" id="vChest">Coffre</button>
+      <button class="btn alt" id="vSet">Paramètres</button>
+      <button class="btn alt" id="soundBtn">Son : oui</button>
+      <button class="btn alt" id="fsBtn">Plein écran</button>
+    </div>
+  </div>
+  <div id="vhint">Pouce gauche : marcher · glisse à droite : tourner la caméra · approche-toi d’un bâtiment</div>
+  <button class="btn big" id="vFallback" hidden>Jouer au Bastion</button>
+  <div id="vjoy" hidden><div id="vjoyKnob"></div></div>
+  <div id="vpanel" hidden></div>
+</div>
+
+<div class="modal" id="portalM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer le portail">&#10005;</button>
+    <h2>Portail</h2>
+    <p class="sub">Choisis ton aventure <button class="btn alt pm-gfx" id="pmGfx" title="Fluide : moins d’effets et une image moins fine, pour un jeu plus rapide">Graphismes : beau</button></p>
+    <div class="games">
+      <section class="game-card bastion-card">
+        <h3>Le Bastion</h3>
+        <p class="gc-sub">Défends le bastion contre les vagues de monstres · record : vague <span id="pmBest">0</span></p>
+        <div class="pm-row">
+          <canvas id="pmHero" width="192" height="192"></canvas>
+          <div>
+            <b id="pmCls"></b>
+            <p id="pmBonus"></p>
+            <button class="btn alt" id="pmClassBtn" style="font-size:.95rem;padding:.4em .8em">Changer de classe</button>
+          </div>
+        </div>
+        <div class="diff" id="diffRow" role="radiogroup" aria-label="Difficulté">
+          <button data-diff="easy">Facile</button><button data-diff="normal">Moyen</button><button data-diff="hard">Hardcore</button>
+        </div>
+        <p class="gc-sub" id="diffInfo"></p>
+        <button class="btn big" id="playBtn">JOUER EN SOLO</button>
+        <button class="btn alt" id="bastionDuo">JOUER À DEUX</button>
+      </section>
+      <section class="game-card dungeon-card"><h3>Donjons</h3><p class="gc-sub">Histoire principale · chapitre 1</p><p class="gc-desc">Le Donjon des gobelins : cinq salles et le chef Gribouille.</p><button class="btn big" id="dungeonBtn">DÉCOUVRIR</button></section>
+      <section class="game-card wolf-card">
+        <h3>Loup-Garou</h3>
+        <p class="gc-sub">Soirée au coin du feu</p>
+        <div class="wolf-art" aria-hidden="true"><span class="moon"></span><span class="fire"></span></div>
+        <p class="gc-desc">Une nuit dans la forêt, autour d’un feu de camp, avec 8 autres joueurs (des bots). Le Conteur t’explique les règles, puis… méfie-toi des loups !</p>
+        <button class="btn big" id="wolfBtn">JOUER EN SOLO</button><button class="btn alt" id="wolfDuo">JOUER À DEUX</button>
+      </section>
+      <section class="game-card candy-card">
+        <h3>Royaume Sucré</h3>
+        <p class="gc-sub" id="pmCandy">Niveau 1</p>
+        <div class="cc-art" id="ccArt" aria-hidden="true"></div>
+        <p class="gc-desc">Aligne au moins 3 bonbons de la même couleur ! Bonbons spéciaux, boosters, niveaux récompenses et roue sucrée toutes les 10 heures.</p>
+        <button class="btn big" id="candyBtn">JOUER</button>
+      </section>
+    </div>
+    <details class="panel portal-history"><summary>Historique des parties</summary>
+      <h2>Dernières parties <small id="totalKills"></small></h2>
+      <ul class="hist" id="histList"></ul>
+    </details>
+  </div>
+</div>
+
+<div class="modal" id="coopM" hidden><div class="modal-in"><div class="coop-cols">
+        <aside id="friendsCol"><h3>Mes amis</h3><div id="friendsList"></div><p class="friends-tip">Pour ajouter un ami : connectez-vous une fois avec son code, puis touchez « Ajouter cet ami » dans la bulle 💬 Amis. Ensuite, « Rejoindre » suffit (ton ami doit avoir créé sa partie).</p></aside>
+        <div id="coopPanel">
+          <h2 id="coopTitle">Jouer à deux</h2>
+          <p><span id="coopRules">Deux héros et un butin commun. Vies : 3 en Facile, 2 en Moyen, 1 en Hardcore. L’hôte choisit les améliorations. Internet requis.</span></p>
+          <p><label for="coopAlias">Mon identifiant (facultatif)</label><br><input id="coopAlias" maxlength="25" placeholder="#Trucmuche" autocomplete="off" spellcheck="false"></p>
+          <button class="btn alt" id="coopHost">Créer une partie</button>
+          <p><label for="coopCode">Code de ton ami</label><br><input id="coopCode" maxlength="25" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="" style="font:inherit;width:12em;max-width:100%;padding:8px"></p>
+          <button class="btn alt" id="coopJoin">Rejoindre</button>
+          <p id="coopStatus" role="status" aria-live="polite">Crée une partie ou saisis le code de ton ami.</p>
+          <button class="btn" id="coopStart" hidden>Lancer à deux</button>
+          <button class="btn alt" id="coopCancel" hidden>Annuler / quitter</button>
+        </div></div><button class="btn alt" id="coopBack">Retour au jeu</button></div></div>
+<div id="socialPrompt" hidden style="position:fixed;z-index:9999;top:12px;left:50%;transform:translateX(-50%);width:300px;max-width:90vw;padding:12px;background:#24164f;color:white;border:2px solid #ffd23f;border-radius:8px"><p id="socialPromptText"></p><button class="btn" id="socialYes">Accepter</button> <button class="btn alt" id="socialNo">Refuser</button></div>
+<div id="friendBar" hidden><details id="friendChat"><summary>💬 Amis <span id="friendUnread"></span></summary><p id="friendPlace"></p><button class="btn alt" id="friendAdd">Ajouter cet ami</button><p id="friendAddStatus"></p><div id="friendLog" role="log" aria-live="polite"></div><form id="friendForm"><input id="friendText" maxlength="280" placeholder="Ton message…" aria-label="Message à ton ami" autocomplete="off"><button class="btn" type="submit">Envoyer</button></form><button class="btn alt" id="friendMic">Activer mon micro</button><p id="friendVoice">Micro coupé</p><audio id="friendAudio" autoplay></audio><div id="friendLaunch" hidden><button class="btn" id="friendBastion">Bastion ×1</button><button class="btn" id="friendWolf">Loup-Garou</button></div><button class="btn alt" id="friendLeave">Quitter la session</button></details></div>
+<div class="modal" id="dungeonIntro" hidden><div class="modal-in"><h2>Donjon des gobelins</h2><p>Chapitre 1 · Les tambours sous le village</p><p>Les gobelins ont creusé un repaire sous la colline. Traverse leurs quatre postes de garde, puis défie Gribouille, leur chef. Le village compte sur toi !</p><p>Cinq petites salles, à terminer dans l’ordre. Les portes s’ouvrent après chaque victoire. Les ressources et équipements arriveront plus tard.</p><div class="diff" id="dungeonDiff" role="radiogroup" aria-label="Difficulté du donjon"><button data-dd="easy">Facile</button><button data-dd="normal">Moyen</button><button data-dd="hard">Hardcore</button></div><p id="dungeonProgress"></p><button class="btn" id="dungeonStart">Entrer dans le donjon</button><button class="btn alt" id="dungeonBack">Retour au portail</button></div></div>
+<div class="modal" id="dungeonClear" hidden><div class="modal-in"><h2 id="dungeonClearTitle"></h2><p id="dungeonClearStats"></p><p>La porte suivante est ouverte. Reprends ton souffle : +10 % PV.</p><button class="btn" id="dungeonNext">Passer à la salle suivante</button><button class="btn alt" id="dungeonLeave">Quitter le donjon</button></div></div>
+<div class="modal" id="dungeonReport" hidden><div class="modal-in"><h2 id="dungeonResult"></h2><p id="dungeonTotal"></p><div id="dungeonRows"></div><p>Emplacements de ressources : les drops et la fabrication seront ajoutés plus tard.</p><div class="diff" id="dungeonReplayDiff" role="radiogroup" aria-label="Difficulté pour rejouer"></div><button class="btn" id="dungeonReplay">Rejouer</button><button class="btn alt" id="dungeonHome">Retour au village</button></div></div>
+<div class="modal" id="tutorialM" hidden><div class="modal-in"><h2 id="tutorialTitle"></h2><p id="tutorialText"></p><p id="tutorialProgress"></p><button class="btn alt" id="tutorialPrev">Précédent</button> <button class="btn" id="tutorialNext">Suivant</button> <button class="btn alt" id="tutorialSkip">Passer le tutoriel</button></div></div>
+<div id="npcBubble" hidden role="status"><b id="npcSpeaker"></b><span id="npcWords"></span></div>
+<section id="wolfDuoGame" hidden aria-label="Loup-Garou multijoueur">
+<header><h2>Loup-Garou · <span id="wdPhase"></span></h2><button class="btn alt" id="wdQuit">Quitter</button></header>
+<div class="wd-layout"><div><div class="wd-fire" aria-hidden="true">🌲 🔥 🌲</div><div id="wdPlayers"></div></div>
+<div class="wd-story"><details><summary id="wdRole"></summary><p id="wdRoleHelp"></p></details><div id="wdLog" role="log" aria-live="polite"></div><b id="wdPrompt"></b><div id="wdChoices"></div><details><summary>Historique des votes</summary><div id="wdVotes"></div></details><p id="wdReward"></p></div></div></section>
+<div class="modal" id="testM" hidden><div class="modal-in"><h2>Mode test</h2><p>Code du bunker requis.</p><input id="testCode" type="password" inputmode="numeric" maxlength="12" aria-label="Code du mode test" autocomplete="off"><p id="testMsg" role="status"></p><button class="btn" id="testUnlock">Déverrouiller</button><button class="btn alt" data-close>Annuler</button></div></div>
+<div class="modal" id="classesM" hidden>
+  <div class="modal-in">
+    <h2>Caserne</h2>
+    <p class="sub">Améliore la Caserne pour débloquer de nouvelles classes.</p>
+    <div class="classes" id="classList" style="width:100%"></div>
+    <div class="row-btns"><button class="btn" data-close>Valider</button></div>
+  </div>
+</div>
+
+<div class="modal" id="skinsM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer la garde-robe">&#10005;</button>
+    <h2 id="shopTitle">Garde-robe</h2>
+    <p class="sub"><span class="chip"><i class="coin"></i><span id="skinCoins">0</span> pièces</span> <span class="chip"><i class="gem"></i><span id="skinGems">0</span> gemmes</span></p>
+    <div class="shop-layout">
+    <aside class="pv">
+      <div class="pv-stage">
+        <canvas id="pvCanvas" aria-label="Aperçu du héros"></canvas>
+        <div class="pv-rot"><button class="pv-arrow" id="pvLeft" aria-label="Tourner vers la gauche">&#9664;</button><button class="pv-arrow" id="pvRight" aria-label="Tourner vers la droite">&#9654;</button></div>
+      </div>
+      <div class="pv-info"><b id="pvName">Ton héros</b><span id="pvSub">Touche un objet pour l’essayer</span></div>
+      <div class="pv-btns"><button class="btn" id="pvAct" hidden></button><button class="btn alt" id="pvReset">Annuler l’essai</button></div>
+    </aside>
+    <div class="shop-main">
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="gear" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 16c3 1 15 1 18 0l-2 3H5z" fill="currentColor"/><path d="M7 15c0-5 2-10 5-10s5 5 5 10" fill="currentColor" opacity=".75"/></svg><span>Équipements</span></button>
+      <button class="tab" data-tab="weapon" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h13l3-2h2v5h-4l-1 2h-3l-1 4H8l1-4H3z" fill="currentColor"/></svg><span>Armes</span></button>
+      <button class="tab" data-tab="wskin" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.6 6.3L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.7z" fill="currentColor"/></svg><span>Skins d’armes</span></button>
+      <button class="tab" data-tab="pet" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="5" ry="4" fill="currentColor"/><circle cx="6" cy="10" r="2.2" fill="currentColor"/><circle cx="10" cy="6.5" r="2.2" fill="currentColor"/><circle cx="14" cy="6.5" r="2.2" fill="currentColor"/><circle cx="18" cy="10" r="2.2" fill="currentColor"/></svg><span>Familiers</span></button>
+      <button class="tab" data-tab="cosm" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10l2 16-7-3-7 3z" fill="currentColor"/><circle cx="12" cy="9" r="2" fill="#fff8ec" opacity=".8"/></svg><span>Objivants</span></button>
+      <button class="tab sel" data-tab="look" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.4-2.2-.6-1.1.1-2.3 1.4-2.3H17a4 4 0 0 0 4-4c0-5-4-9.5-9-9.5z" fill="currentColor"/><circle cx="7.5" cy="11" r="1.6" fill="#ff4f6d"/><circle cx="10" cy="7" r="1.6" fill="#ffd23f"/><circle cx="15" cy="7.5" r="1.6" fill="#3db8ff"/></svg><span>Apparence</span></button>
+    </div>
+    <div id="gearList" style="width:100%;display:flex;flex-direction:column;gap:14px" hidden></div>
+    <div id="skinList" style="width:100%;display:flex;flex-direction:column;gap:14px"></div>
+    <div id="cosmList" style="width:100%;display:flex;flex-direction:column;gap:14px" hidden></div>
+    <div id="weaponList" style="width:100%" hidden></div>
+    <div class="wskins" id="wskinList" style="width:100%" hidden></div>
+    <div id="petList" style="width:100%" hidden></div>
+    </div>
+    </div>
+    <div class="row-btns"><button class="btn" data-close>Valider</button></div>
+  </div>
+</div>
+
+<div class="modal" id="witchM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer la sorcière">&#10005;</button>
+    <h2>La sorcière</h2>
+    <p class="sub"><span class="chip"><i class="coin"></i><span id="witchCoins">0</span> pièces</span> « Choisis un œuf, je m’occupe du reste… »</p>
+    <div class="tabs" id="witchTabs"><button class="tab" data-wtab="eggs">Les œufs</button><button class="tab" data-wtab="pets">Mes familiers</button></div>
+    <div id="witchList" style="width:100%"></div>
+  </div>
+</div>
+<div class="modal" id="decoM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer la décoration">&#10005;</button>
+    <h2>Décoration</h2>
+    <p class="sub"><span class="chip"><i class="coin"></i><span id="decoCoins">0</span> pièces</span> Chaque meuble garde sa place : tu choisis seulement son style.</p>
+    <div id="decoList" style="width:100%;display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
+<div id="fade" hidden></div>
+<div id="loader">
+  <div class="ld-card">
+    <canvas id="ldSheep" width="128" height="128" aria-hidden="true"></canvas>
+    <h1>Dernier Bastion</h1>
+    <div class="ld-bar"><div id="ldFill"></div></div>
+    <p id="ldStep">Chargement…</p>
+    <p class="ld-tip" id="ldTip"></p>
+  </div>
+</div>
+<div id="candy" hidden>
+  <div class="cc-map" id="ccMap">
+    <div class="cc-top">
+      <button class="cc-btn blue sm" id="ccBack">&#9664; Village</button>
+      <div class="cc-title">Royaume Sucré<small><span id="ccStarsTot">0</span> ★ · <span id="ccStreakMap"></span></small></div>
+      <button class="cc-gobbtn" id="ccGobBtn" aria-pressed="false" title="Mode du Gobelin têtu (hardcore) : tous les bonbons en rose, seules leurs formes changent">&#127856; Gobelin têtu · hardcore</button>
+      <button class="cc-wheelbtn" id="ccWheelBtn"><i class="cc-mini"></i><span id="ccWheelTime">Roue prête !</span></button>
+    </div>
+    <div class="cc-inv" id="ccInv"></div>
+    <div class="cc-scroll" id="ccPath"></div>
+  </div>
+  <div class="cc-play" id="ccPlay" hidden>
+    <div class="cc-hud">
+      <div class="cc-panel cc-lvl"><b id="ccLvl">Niveau 1</b><button class="cc-x" id="ccQuit" aria-label="Quitter le niveau">&#10005;</button></div>
+      <div class="cc-panel cc-moves"><b id="ccMoves">20</b><span>coups</span></div>
+      <div class="cc-panel"><span class="cc-lab">Objectifs</span><div class="cc-goals" id="ccGoals"></div></div>
+      <div class="cc-panel cc-sc"><span class="cc-lab">Score</span><b id="ccScore">0</b><div class="cc-bar" id="ccBar"><i id="ccBarFill"></i><s>★</s><s>★</s><s>★</s></div></div>
+    </div>
+    <div class="cc-wrap" id="ccWrap"><canvas id="ccCanvas"></canvas><div id="ccFx"></div></div>
+    <div class="cc-boost" id="ccBoost"></div>
+  </div>
+  <div class="cc-pop" id="ccPop" hidden><div class="cc-pop-in" id="ccPopIn"></div></div>
+</div>
+
+<div id="wolf" hidden>
+  <div id="wNight"></div>
+  <div class="w-top"><span class="chip" id="wPhase"></span><span class="chip" id="wRole"></span><button class="btn alt" id="wQuit">Quitter</button></div>
+  <div id="wBubbles"></div>
+  <div class="w-box" id="wBox"><div class="w-who" id="wWho"></div><div class="w-text" id="wText"></div><div class="w-btns" id="wBtns"></div></div>
+  <div class="w-card" id="wCard" hidden><small>Ta carte</small><canvas id="wCardArt" width="220" height="200"></canvas><b id="wCardName"></b><p id="wCardDesc"></p><span class="w-tap">Touche la carte pour commencer</span></div>
+</div>
+<div class="modal" id="patchM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer">&#10005;</button>
+    <h2>Nouveautés</h2>
+    <div class="patch" id="patchList"></div>
+    <div class="row-btns"><button class="btn" data-close>Super !</button></div>
+  </div>
+</div>
+<div class="modal" id="tribeM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close id="tribeX" aria-label="Fermer" hidden>&#10005;</button>
+    <h2>Crée ton personnage</h2>
+    <p class="sub">Choisis l’aventurier qui te représentera. Tu choisiras ensuite sa classe à la Caserne (Soldat, Ingénieur, Médecin…).</p>
+    <label class="tribe-name">Nom de ton personnage <input id="tribeName" maxlength="16" placeholder="Arthur, Bjorn, Merlin…" autocomplete="off"></label>
+    <div class="tribes" id="tribeList"></div>
+  </div>
+</div>
+<div id="slotMenu" hidden>
+  <div class="sm-in">
+    <h1>Dernier Bastion</h1>
+    <p class="sm-sub">Choisis ton personnage</p>
+    <div class="sm-slots" id="smSlots"></div>
+    <div class="sm-load"><div class="sm-bar"><i id="smFill"></i></div><span id="smStep">Chargement du jeu…</span></div>
+    <button class="btn alt" id="smBack" hidden>Retour au village</button>
+  </div>
+</div>
+<div class="modal" id="jobsM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer les métiers">&#10005;</button>
+    <h2>Métiers</h2>
+    <div class="jobs" id="jobsList"></div>
+    <div class="jtabs" id="jobsTabs"><button class="btn alt" data-jtab="res">Ressources</button><button class="btn alt" data-jtab="forge">Forgeron</button><button class="btn alt" data-jtab="alch">Alchimiste</button></div>
+    <div id="jobsBody" class="jbody"></div>
+  </div>
+</div>
+<div class="modal" id="setM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer les paramètres">&#10005;</button>
+    <h2>Paramètres</h2>
+    <div id="setList" class="set-list"></div>
+  </div>
+</div>
+<div id="raidAlert" hidden>
+  <b>⚔ Alerte ! Le village est attaqué !</b>
+  <span>Des monstres approchent des remparts.</span>
+  <div class="row-btns"><button class="btn big-ish" id="raidGo">Défendre</button><button class="btn alt" id="raidNo">Plus tard</button></div>
+</div>
+<div class="modal" id="chestM" hidden>
+  <div class="modal-in">
+    <button class="modal-x" data-close aria-label="Fermer le coffre">&#10005;</button>
+    <h2 id="chestTitle">Coffre du jour</h2>
+    <p class="sub" id="chestSub"></p>
+    <div class="streak" id="chestStreak"></div>
+    <canvas id="chestCv" width="420" height="300" aria-label="Coffre"></canvas>
+    <p class="chest-res" id="chestRes"></p>
+    <div class="row-btns"><button class="btn big-ish" id="chestOpen">Ouvrir le coffre</button></div>
+  </div>
+</div>
+
+<div class="modal" id="levelup" hidden>
+  <div class="modal-in">
+    <h2 id="luTitle">Niveau 2 !</h2>
+    <p class="sub">Choisis une amélioration</p>
+    <div class="lu-timer" id="luTimer" hidden><i></i></div>
+    <div class="cards" id="luCards"></div>
+  </div>
+</div>
+
+<div class="modal" id="pause" hidden>
+  <div class="modal-in">
+    <h2>Pause</h2>
+    <p class="sub" id="pauseInfo"></p>
+    <div class="row-btns">
+      <button class="btn" id="resumeBtn">Reprendre</button>
+      <button class="btn alt" id="zoomBtn">Caméra</button>
+      <button class="btn alt" id="speedBtn">Vitesse : ×1</button>
+      <button class="btn alt" id="quitBtn">Abandonner la partie</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="over" hidden>
+  <div class="modal-in">
+    <h2>Fin du combat</h2>
+    <div class="record" id="recordText" hidden>Nouveau record !</div>
+    <div class="recap-head"><canvas id="rHero" width="160" height="160"></canvas><div class="recap-who"><b id="rName"></b><small id="rSub"></small></div><div class="recap-time"><span>Temps de combat</span><b id="rTime">0:00</b></div></div>
+    <div class="results">
+      <div class="res"><b id="rWave">0</b><span>Vague</span></div>
+      <div class="res"><b id="rKills">0</b><span>Monstres</span></div>
+      <div class="res"><b id="rLevel">0</b><span>Niveau</span></div>
+      <div class="res"><b id="rCoins">0</b><span>Pièces</span></div>
+      <div class="res"><b id="rGems">0</b><span>Gemmes</span></div>
+    </div>
+    <div class="recap-loot" id="rLootBox" hidden><h3>Butin de fin de combat</h3><div class="rloot" id="rLoot"></div><p class="rnote" id="rNote"></p></div>
+    <div class="row-btns">
+      <button class="btn" id="againBtn">Rejouer</button>
+      <button class="btn alt" id="menuBtn">Retour au village</button>
+    </div>
+  </div>
+</div>
+
+<script src="three.min.js"></script>
+<script src="vendor/peerjs.min.js"></script>
+<script src="coop-session.js?v=202"></script>
+<script src="friend-book.js?v=202"></script>
+<script src="dungeon-rules.js?v=202"></script>
+<script src="character-models.js?v=202"></script>
+<script src="coop-motion.js?v=202"></script>
+<script src="coop-comms.js?v=202"></script>
+<script src="wolf-social.js?v=202"></script>
+<script src="wolf-duo.js?v=202"></script>
+<script src="loader.js?v=202"></script>
+<script src="main.js?v=202"></script>
+</body>
+</html>
