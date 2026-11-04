@@ -1,0 +1,175 @@
+{
+  "sand": {
+    "bytes": 485088,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/sand_01/sand_01_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "sand_01",
+    "page": "https://polyhaven.com/a/sand_01",
+    "sha256": "a73b90eaa6d675ef57e7d48a8cf23e1f412e353ab2e29cf73930b8ecd4e76875"
+  },
+  "dirt": {
+    "bytes": 604799,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dry_ground_01/dry_ground_01_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "dry_ground_01",
+    "page": "https://polyhaven.com/a/dry_ground_01",
+    "sha256": "75222fc97a82b635a09cf8f2891dd58bc42e49599b9fda920b2c50193fe85e9f"
+  },
+  "pebbles": {
+    "bytes": 1028735,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/river_small_rocks/river_small_rocks_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "river_small_rocks",
+    "page": "https://polyhaven.com/a/river_small_rocks",
+    "sha256": "adbcaae1f1445d5b49797c71ea2c3f43ccaf7b109f933a427f0d0993d1dbbc51"
+  },
+  "snow": {
+    "bytes": 325497,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/snow_02/snow_02_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "snow_02",
+    "page": "https://polyhaven.com/a/snow_02",
+    "sha256": "523a4e69c90b96d787dd69b897f29a2b3761a017024405c60aa630d1e8e9009a"
+  },
+  "furrows": {
+    "bytes": 717703,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/farm_furrows/farm_furrows_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "farm_furrows",
+    "page": "https://polyhaven.com/a/farm_furrows",
+    "sha256": "991caba24cc555a968b98092bd0dd3a35da849e553012830062eab158c32bb22"
+  },
+  "grass": {
+    "bytes": 876584,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "grass_ground",
+    "page": "https://polyhaven.com/a/grass_ground",
+    "sha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b"
+  },
+  "rocky": {
+    "bytes": 905179,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rocky_terrain/rocky_terrain_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "rocky_terrain",
+    "page": "https://polyhaven.com/a/rocky_terrain",
+    "sha256": "429315865fd89c150272592f6d93def174c6f69804a565ff08e53627a885579b"
+  },
+  "lava": {
+    "bytes": 720673,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cracked_red_ground/cracked_red_ground_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "cracked_red_ground",
+    "page": "https://polyhaven.com/a/cracked_red_ground",
+    "sha256": "36f41dc2e889c5473c784f3316baf6ac0d4f4e6ad21205781c60e767aa640644"
+  },
+  "floor": {
+    "bytes": 734493,
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_floor/wood_floor_diff_1k.jpg",
+    "license": "CC0-1.0",
+    "asset": "wood_floor",
+    "page": "https://polyhaven.com/a/wood_floor",
+    "sha256": "2a1c07687b6dbb214c4b9213739c6d92d425f1f0fc8ab3ac157f105d78240789"
+  },
+  "cobble": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/cobblestone_01/cobblestone_01_diff_1k.jpg",
+    "bytes": 487258,
+    "page": "https://polyhaven.com/a/cobblestone_01",
+    "license": "CC0-1.0",
+    "sha256": "aab330227974aadbc477b2022351112f5696fa7048d99dc776c2e6f23f4e0d2a",
+    "asset": "cobblestone_01"
+  },
+  "creations_createur": {
+    "grass3": {
+      "fichier": "grass3.webp",
+      "source": "texture_herbe_sombre.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 71166,
+      "sha256": "f85e33873e05f160ea79a4dd1fdfa5c938b1dac0023decf6d1d1e1b7c3267324",
+      "usage": "Prairie, village, marais, champs"
+    },
+    "dirt2": {
+      "fichier": "dirt2.webp",
+      "source": "texture_terre.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 52658,
+      "sha256": "c24203992a370228c84541bd460df71c51ed409b20c1cd7edb3dd5f31fd36340",
+      "usage": "Chemins du Bastion et de Loup-Garou"
+    },
+    "sand2": {
+      "fichier": "sand2.webp",
+      "source": "texture_sable.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 33538,
+      "sha256": "6fe59e5f08765fac8d6f908476448ea5152a98ccfad1e0ea72b53ddffd3f5ea7",
+      "usage": "Plages et côte"
+    },
+    "pebbles2": {
+      "fichier": "pebbles2.webp",
+      "source": "texture_galets.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 103026,
+      "sha256": "f50a115d04a719564fc620deb76e20a010d0109e9adaf427d00de53dc520fa26",
+      "usage": "Galets, détails de terrain"
+    },
+    "rocky2": {
+      "fichier": "rocky2.webp",
+      "source": "texture_roche.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 45694,
+      "sha256": "5b58d701eed58d515573484a612dffac768e9fd98ccd8cbc2c28bb39ef30d8c4",
+      "usage": "Clairière Tiki"
+    },
+    "furrows2": {
+      "fichier": "furrows2.webp",
+      "source": "texture_sillons.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 46216,
+      "sha256": "01843d827394ba5080593407fe9cb9437d76aa339562405071d5423c6fbedeff",
+      "usage": "Champs cultivés"
+    },
+    "lava2": {
+      "fichier": "lava2.webp",
+      "source": "texture_lave.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 87800,
+      "sha256": "8ffd51b58c6205f7851a92e33d8717e4528e52501bab760941975cfafed0cb18",
+      "usage": "Antre du Démon, canaux de lave"
+    },
+    "snow2": {
+      "fichier": "snow2.webp",
+      "source": "texture_neige.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 24412,
+      "sha256": "e3f70cb36542061e6cc4a23366e92074db620c6d062ef3b0ef7cf0bf256287e6",
+      "usage": "Pics du Yéti"
+    },
+    "floor2": {
+      "fichier": "floor2.webp",
+      "source": "texture_parquet.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 42682,
+      "sha256": "0fd7f598a916fca89887c45aab4b2e400b76548f694f2b6229bc4c0947a5bc31",
+      "usage": "Parquet de la maison"
+    },
+    "cobble2": {
+      "fichier": "cobble2.webp",
+      "source": "texture_paves.png",
+      "auteur": "créateur du jeu (Dernier Bastion), généré avec Meshy",
+      "licence": "abonnement Meshy avec licence commerciale",
+      "taille": 128182,
+      "sha256": "7c9a307f6c35fa6638ae0bc56b6fa3f926b9a0d77058b7f9a5f566114956034b",
+      "usage": "Place et chemins pavés"
+    }
+  },
+  "note": "Les entrées de premier niveau (grass, dirt, sand…) sont les anciennes cartes Poly Haven CC0, conservées sur le disque mais plus utilisées par le jeu depuis la 4.24 : voir creations_createur."
+}

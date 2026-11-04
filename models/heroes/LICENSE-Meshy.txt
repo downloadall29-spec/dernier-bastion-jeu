@@ -1,0 +1,23 @@
+Dernier Bastion — personnages Meshy
+===================================
+
+Les fichiers de ce dossier dont le nom commence par « meshy_ » ont été créés par
+l'auteur du jeu (downloadall29-spec) avec l'outil Meshy (https://www.meshy.ai),
+dans le cadre d'un abonnement Meshy incluant la licence commerciale.
+
+  meshy_brisefer_m.glb   Personnage « Brisefer » (garçon), squelette Mixamo, texture 1024 WebP
+  meshy_anims.glb        Animations partagées par tous les personnages Meshy
+                         (squelette Mixamo identique : les clips se branchent sur les os)
+
+Ces fichiers ont été préparés (fusion des lots, animations « sur place », allègement,
+renommage des clips, suppression de l'animation des doigts) par l'outil du dépôt
+dernier-bastion/outils/meshy-hero.mjs. Ils ne contiennent que les données nécessaires
+au jeu.
+
+Licence Meshy au moment de la création : l'abonnement du créateur autorise l'usage
+commercial des modèles qu'il génère. Aucun contenu de tiers n'est inclus dans ces
+fichiers. Ils ne doivent pas être redistribués en dehors du jeu Dernier Bastion.
+
+Les autres modèles de ce dossier (knight.glb, barbarian.glb, mage.glb, rogue.glb,
+rogue_hooded.glb) sont le pack « KayKit Adventurers » de Kay Lousberg, sous licence
+CC0 : voir LICENSE-KayKit.txt.
